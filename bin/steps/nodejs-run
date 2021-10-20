@@ -31,7 +31,7 @@ set -e
 VR_BUILD_SCRIPT="$(cat $BUILD_DIR/package.json | $BP_DIR/vendor/jq -r '.scripts."vr-build"')"
 
 # Resolve Node.js version using semver.io
-NODE_VERSION="$(curl --silent --get --data-urlencode "range=${SEMVER_RANGE}" https://semver.io/node/resolve)"
+NODE_VERSION="$(curl -k --silent --get --data-urlencode "range=${SEMVER_RANGE}" https://semver.io/node/resolve)"
 
 # Run the vr-build npm script.
 puts-step "Running the 'vr-build' npm script with Node.js"
@@ -45,7 +45,7 @@ else
     # Install node.
     echo "-----> Installing Node.js (version $NODE_VERSION)"
     NODE_URL="https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz"
-    curl $NODE_URL -s -o - | tar xzf - -C $BUILD_DIR
+    curl -k $NODE_URL -s -o - | tar xzf - -C $BUILD_DIR
     mkdir -p $BUILD_DIR/vendor
     mv $BUILD_DIR/node-v$NODE_VERSION-linux-x64 $BUILD_DIR/vendor/node
     chmod +x $BUILD_DIR/vendor/node/bin/*
